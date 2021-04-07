@@ -1,0 +1,205 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="../assets/css/styles.css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="icon" href="Favicon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+    <title>Node Demo</title>
+
+    <style>
+        .shopping-cart {
+            width: 100%;
+            border-top: 1px solid #C3C3C3;
+            border-right: 1px solid #C3C3C3;
+            clear: both;
+        }
+
+        .shopping-cart th {
+            background: #F0F0F0;
+        }
+
+        .shopping-cart th,
+        .shopping-cart td {
+            border-bottom: 1px solid #C3C3C3;
+            border-left: 1px solid #C3C3C3;
+            padding: 3px;
+        }
+
+        .shopping-cart .link {
+            font-size: 90%;
+            white-space: nowrap;
+        }
+
+        .shopping-cart .product {
+            width: 55%
+        }
+
+        .shopping-cart .price {
+            width: 5%;
+        }
+
+        .shopping-cart .quantity {
+            width: 15%;
+        }
+
+        .shopping-cart .quantity input {
+            width: 30px;
+        }
+
+        .shopping-cart .price {
+            width: 20%;
+        }
+
+        .shopping-cart .product-img {
+            border: 1px solid #ccc;
+            background-color: #e9e9e9;
+            padding: 3px;
+            width: 80px;
+            height: 80px;
+            float: left;
+        }
+
+        .shopping-cart .product-img img {
+            max-width: 80px;
+            max-height: 80px;
+            width: auto;
+            height: auto;
+        }
+
+        .shopping-cart .product-name {
+            margin-left: 100px;
+        }
+
+        .shopping-cart tr.totals {
+            font-weight: bold;
+        }
+
+        .shopping-cart tr.totals a {
+            font-weight: normal;
+        }
+
+        .shopping-cart .quantity-span {
+            text-align: right;
+        }
+
+        .coupon {
+            margin: 20px 0 0;
+            text-align: right;
+        }
+
+        .continue-shopping {
+            float: left;
+            margin: 20px 0;
+        }
+
+        .checkout-button {
+            float: right;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="col-md-12">
+        <h1>Shopping Cart</h1>
+        <div class="col-md-8">
+            <table cellspacing="0" class="shopping-cart">
+                <thead style="padding: 1px;">
+                    <tr class="headings">
+                        <th class="link">&nbsp;</td>
+                        <th class="product">Item</td>
+                        <th class="price">Price</td>
+                        <th class="quantity">Quantity</td>
+                        <th class="price">Total</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="link"><label><img src="/assets/images/analog.jpg"></label>
+                        </td>
+                        <td class="product">
+                            <div class="product-img"><a href="{{url}}"><img src="/assets/images/analog.jpg"></a></div>
+                            <div class="product-name">
+                                <a href="{{url}}">Analog</a>
+                            </div>
+                        </td>
+                        <td class="price"> $ 4.95 </td>
+                        <td class="quantity"> 1 </td>
+                        <td class="total"> {{total}} </td>
+                    </tr>
+                    {{#each xprodcuts}}
+                    <tr>
+                        <td class="link"><label>{{url}}</label></td>
+                        <td class="product">
+                            <div class="product-img"><a href="{{url}}">{{url}}</a></div>
+                            <div class="product-name">
+                                <a href="{{url}}">{{name}}</a>
+                            </div>
+                        </td>
+                        <td class="price"> $ {{price}} </td>
+                        <td class="quantity"> {{quantity}} </td>
+                        <td class="quantity"> {{total}} </td>
+                    </tr>
+                    {{/each}}
+
+                    <tr class="totals">
+                        <td colspan="2"><input type="submit" name="submit" value="Update cart" onclick="updateCart()" />
+                        </td>
+                        <td class="quantity-span" colspan="2">Total</td>
+                        <td class="price">{{totalValue}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <div class="coupon">
+                Have a coupon? <input type="submit" value="Apply" />
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function updateCart() {
+            var cartObj = {}
+            cartObj.name = document.getElementsByClassName("product-name").outerText
+            cartObj.price = $('.price').val()
+            cartObj.quantity = $('.quantity').val()
+            cartObj.total = $('.total').val()
+            cartObj.fileupload = $('.url').val()
+            $.post('/saveCartData', cartObj, function (data, status) {
+                if (status == 'success') {
+                    console.log("Data saved successful")
+                } else {
+                    alert("Server is busy to update the data.Please try after some time")
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>
